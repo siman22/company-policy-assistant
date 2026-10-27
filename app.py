@@ -120,26 +120,33 @@ def paragraphs(df, s):
           f"({token_ratio:.0f}x fewer) and a median response time of {v['Median response time (s)']:.2f} s per question, with "
           f"{pct(v['Unsupported answers'])} unsupported answers.")
 
-    diff = v["Correct policy"] - l["Correct policy"]
-    if diff >= 0.02:
-        acc = "it was also more accurate than the LLM that read the whole database"
-    elif diff > -0.06:
-        acc = "its accuracy was on par with the LLM that read the whole database"
+    n_v, n_l = round(v["Correct policy"] * n), round(l["Correct policy"] * n)
+    if n_v > n_l:
+        acc = (f"was slightly more accurate than the LLM that read the whole database ({n_v} vs. {n_l} of {n} "
+               f"questions, a small difference on this test set)")
+    elif n_v == n_l:
+        acc = "was as accurate as the LLM that read the whole database"
     else:
-        acc = ("it was somewhat less accurate than the LLM that read the whole database, because the right policy "
-               "occasionally fell outside the three retrieved ones")
+        acc = (f"was slightly less accurate than the LLM that read the whole database ({n_v} vs. {n_l} of {n}), "
+               f"because the right policy occasionally fell outside the three retrieved ones")
+    t_v, t_l = v["Median response time (s)"], l["Median response time (s)"]
+    if t_v > t_l:
+        speed = (f"It was not faster in this test (median {t_v:.2f} s vs. {t_l:.2f} s), because each question needs an "
+                 f"extra embedding call before the answer and free-tier response times varied a lot, but its main "
+                 f"advantage is cost and scalability: ")
+    else:
+        speed = f"It was also faster (median {t_v:.2f} s vs. {t_l:.2f} s), and its main advantage is cost and scalability: "
     p2 = (f"My preferred approach is the LLM with a vector index, which is also what the Slack bot uses. It "
-          f"understands everyday phrasing the way the full-context LLM does, but {acc}, while costing roughly "
-          f"{token_ratio:.0f} times fewer tokens per question. That difference matters more as the policy database "
-          f"grows: the no-index approach has to send every policy with every question, so its cost and response time "
-          f"rise in step with the database (and it eventually would not fit in the prompt), whereas the vector index "
-          f"is built once and each question only sends a few policies. Showing the model only a few closely related "
-          f"policies, together with an instruction to say when a detail is not specified, also keeps answers tied to "
-          f"the source text, so unsupported answers stay rare. Rules-based search remains useful as a free, instant "
-          f"fallback or for exact title lookups, but its weak accuracy on natural questions and its tendency to "
-          f"return a confident but wrong policy make it unsuitable as the main assistant. The main remaining risk of "
-          f"the vector approach is a retrieval miss, which could be reduced by retrieving more policies, adding a "
-          f"similarity threshold, or combining keyword and vector search.")
+          f"understands everyday phrasing the way the full-context LLM does and {acc}, while using roughly "
+          f"{token_ratio:.0f} times fewer tokens per question. {speed}the no-index approach has to send every policy "
+          f"with every question, so its token cost grows in step with the database (and the database would eventually "
+          f"not fit in the prompt), whereas the vector index is built once and each question only sends a few policies. "
+          f"Showing the model only a few closely related policies, together with an instruction to say when a detail "
+          f"is not specified, also keeps answers tied to the source text, so unsupported answers stay rare. Rules-based "
+          f"search remains useful as a free, instant fallback or for exact title lookups, but its weak accuracy on "
+          f"natural questions and its tendency to return a confident but wrong policy make it unsuitable as the main "
+          f"assistant. The main remaining risk of the vector approach is a retrieval miss, which could be reduced by "
+          f"retrieving more policies, adding a similarity threshold, or combining keyword and vector search.")
     return p1, p2
 
 
