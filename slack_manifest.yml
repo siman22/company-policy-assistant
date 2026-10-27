@@ -1,0 +1,35 @@
+display_information:
+  name: Policy Bot
+  description: Answers company policy questions and names the relevant policy
+  background_color: "#1d4ed8"
+features:
+  bot_user:
+    display_name: Policy Bot
+    always_online: true
+  app_home:
+    messages_tab_enabled: true
+    messages_tab_read_only_enabled: false
+  slash_commands:
+    - command: /policy
+      description: Ask a company policy question
+      usage_hint: can I work from home on Fridays?
+      should_escape: false
+oauth_config:
+  scopes:
+    bot:
+      - app_mentions:read
+      - chat:write
+      - commands
+      - im:history
+      - im:read
+      - im:write
+settings:
+  event_subscriptions:
+    bot_events:
+      - app_mention
+      - message.im
+  interactivity:
+    is_enabled: true
+  org_deploy_enabled: false
+  socket_mode_enabled: true
+  token_rotation_enabled: false

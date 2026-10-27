@@ -1,0 +1,27 @@
+question,expected_policy,type
+How many vacation days do I get per year?,Vacation Policy,direct
+Can I work from home on Fridays?,Remote Work Policy,paraphrase
+What should I wear to the office?,Dress Code Policy,paraphrase
+Do I need approval before spending $800 on a client dinner?,Expense Approval Policy,paraphrase
+How often do I have to change my password?,Password Policy,direct
+My grandmother passed away. How much time off can I take?,Bereavement Leave Policy,paraphrase
+I'm having a baby. How long can I stay home?,Parental Leave Policy,paraphrase
+Can I spend a month working from Spain?,Work From Abroad Policy,paraphrase
+How long do I have to hand in receipts after a business trip?,Travel Reimbursement Policy,paraphrase
+I clicked on a suspicious email link. What should I do?,Security Incident Policy,paraphrase
+Can I install Spotify on my work laptop?,Software Installation Policy,paraphrase
+A journalist called me asking about our new product. Can I comment?,Media Contact Policy,paraphrase
+How long is the probation period for new employees?,Probation Period Policy,direct
+Will the company pay for my evening course at university?,Tuition Assistance Policy,paraphrase
+How can I report fraud without revealing my identity?,Whistleblower Policy,paraphrase
+Can I lend my access badge to a colleague who forgot theirs?,Office Access Policy,paraphrase
+How long are our products covered if they break?,Warranty Policy,paraphrase
+I'm leaving the company next month. What do I need to return?,Company Property Policy,paraphrase
+How many sick days do I accrue each month?,Sick Leave Policy,trap_detail
+How many unused vacation days can I roll over to next year?,Vacation Policy,trap_detail
+What is the maximum amount I can spend on a client gift?,Client Gift Policy,trap_detail
+How many days in advance must I book a meeting room?,Meeting Room Booking Policy,trap_detail
+What is the company's 401(k) matching percentage?,NONE,out_of_scope
+Can I bring my dog to the office?,NONE,out_of_scope
+How much dental insurance coverage do employees get?,NONE,out_of_scope
+What is the daily meal allowance when travelling?,NONE,out_of_scope
